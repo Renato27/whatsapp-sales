@@ -2,9 +2,9 @@
 
 namespace CodeShopping\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Products;
-use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
@@ -15,17 +15,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Products::all();
     }
 
     /**
@@ -36,51 +26,47 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = Products::create($request->all());
+        $product->refresh();
+        return $product;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \CodeShopping\Products  $products
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Products $products)
+    public function show(Products $product)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \CodeShopping\Products  $products
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Products $products)
-    {
-        //
+        return $product;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \CodeShopping\Products  $products
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Products $products)
+    public function update(Request $request, Products $product)
     {
-        //
+        $product->fill($request->all());
+        $product->save();
+
+        return $product;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \CodeShopping\Products  $products
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products $products)
+    public function destroy(Products $product)
     {
-        //
+        $product->delete();
+
+        return response([], 204);
     }
 }
