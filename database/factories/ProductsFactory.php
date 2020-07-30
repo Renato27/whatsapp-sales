@@ -4,8 +4,8 @@ use Faker\Generator as Faker;
 
 $factory->define(CodeShopping\Products::class, function (Faker $faker) {
     return [
-        'name'          => $faker->colorName,
-        'description'   => $faker->text(),
-        'price'         => $faker->randomNumber(6)
+        'name'          => $faker->city,
+        'description'   => $faker->text(400),
+        'price'         => $faker->randomFloat(2,100,1000)
     ];
 });

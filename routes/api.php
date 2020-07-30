@@ -19,6 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['namespace' => 'Api', 'as' => 'api.'], function () {
+    Route::resource('products', 'ProductsController', ['except' => ['create', 'edit']]);
     Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
+    Route::resource('products.categories', 'ProductCategoryController', ['only' => ['index', 'store', 'destroy']]);
+       // gera uma rota igual a products/{product}/categories
+    Route::resource('product-inputs', 'ProductInputController', ['only' => ['store', 'update', 'destroy']]);
+ 
 });
 

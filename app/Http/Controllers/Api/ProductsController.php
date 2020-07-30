@@ -4,6 +4,7 @@ namespace CodeShopping\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use CodeShopping\Http\Controllers\Controller;
+use CodeShopping\Http\Resources\ProductResource;
 use CodeShopping\Products;
 
 class ProductsController extends Controller
@@ -15,20 +16,21 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return Products::all();
+        $product = Products::paginate(10);
+        return ProductResource::collection($product);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response 
      */
     public function store(Request $request)
     {
         $product = Products::create($request->all());
-        $product->refresh();
-        return $product;
+        $product->refresh(); //Active
+        return new ProductResource($product);
     }
 
     /**
@@ -39,7 +41,7 @@ class ProductsController extends Controller
      */
     public function show(Products $product)
     {
-        return $product;
+        return new ProductResource($product);
     }
 
     /**
@@ -54,7 +56,7 @@ class ProductsController extends Controller
         $product->fill($request->all());
         $product->save();
 
-        return $product;
+        return new ProductResource($product);
     }
 
     /**
@@ -67,6 +69,6 @@ class ProductsController extends Controller
     {
         $product->delete();
 
-        return response([], 204);
+        return response()->json([], 204);
     }
 }

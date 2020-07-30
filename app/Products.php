@@ -18,4 +18,14 @@ class Products extends Model
             ]
         ];
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function productInputs()
+    {
+        return $this->hasMany(ProductInput::class, 'product_id', 'id');
+    }
 }
