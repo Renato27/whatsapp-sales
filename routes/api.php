@@ -22,6 +22,8 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function () {
     Route::resource('products', 'ProductsController', ['except' => ['create', 'edit']]);
     Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
     Route::resource('products.categories', 'ProductCategoryController', ['only' => ['index', 'store', 'destroy']]);
+    Route::resource('products.photos',     'ProductPhotoController',  ['except' => ['create', 'edit']]);
+    Route::post('products/{product}/photos/{photo}', 'ProductPhotoController@updatePhotoProduct');
        // gera uma rota igual a products/{product}/categories
     Route::resource('inputs', 'ProductInputController', ['only' => ['store', 'index', 'show']]);
     Route::resource('outputs', 'ProductOutputController', ['only' => ['store', 'index', 'show']]);

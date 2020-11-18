@@ -28,4 +28,9 @@ class Products extends Model
     {
         return $this->hasMany(ProductInput::class, 'product_id', 'id');
     }
+
+    public function photos()
+    {
+        return $this->hasMany(ProductPhoto::class, 'product_id', 'id');
+    }
 }

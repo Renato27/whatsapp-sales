@@ -1,11 +1,18 @@
 <?php
 
+declare(strict_types=1);
 use CodeShopping\ProductPhoto;
 use CodeShopping\Products;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 
 class ProductPhotosTableSeeder extends Seeder
 {
+
+    private $allFakerPhotos;
+
+    private $fakerPhotosPath = 'app/faker/product_photos';
     /**
      * Run the database seeds.
      *
@@ -13,6 +20,11 @@ class ProductPhotosTableSeeder extends Seeder
      */
     public function run()
     {
+        /**
+         * @var Collection
+         */
+        $this->allFakerPhotos = $this->getFakerPhotos();
+
         $products = Products::all();
         $this->deleteAllPhotosInProductsPath();
         $self = $this;
@@ -20,6 +32,12 @@ class ProductPhotosTableSeeder extends Seeder
             $self->createPhotoDir($product);
             $self->createPhotosModels($product);
         });
+    }
+
+    private function getFakerPhotos() : Collection
+    {
+        $path = storage_path($this->fakerPhotosPath);
+        return collect(\File::allFiles($path));
     }
 
     private function deleteAllPhotosInProductsPath()
@@ -43,9 +61,32 @@ class ProductPhotosTableSeeder extends Seeder
 
     private function createPhotoModel(Products $products)
     {
-        ProductPhoto::create([
+        $photo = ProductPhoto::create([
             'product_id'    => $products->id,
             'file_name'     => 'imagem.jpg'
         ]);
+
+        $this->generatePhoto($photo);
+    }
+
+    private function generatePhoto(ProductPhoto $photo)
+    {
+        $photo->file_name = $this->uploadPhoto($photo->product_id);
+        $photo->save();
+    }
+
+    private function uploadPhoto($productId) : string
+    {
+        /**
+         * @var SplFileInfo $photoFile
+         */
+        $photoFile = $this->allFakerPhotos->random();
+        $uploadFile = new UploadedFile(
+            $photoFile->getRealPath(),
+            str_random(16) . '.' . $photoFile->getExtension()
+        );
+        ProductPhoto::uploadFiles($productId, [$uploadFile]);
+        
+        return $uploadFile->hashName();
     }
 }
