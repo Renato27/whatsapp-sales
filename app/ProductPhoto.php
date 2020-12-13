@@ -3,7 +3,9 @@
 declare(strict_types=1);
 namespace CodeShopping;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 
 class ProductPhoto extends Model
@@ -33,12 +35,12 @@ class ProductPhoto extends Model
             self::deleteFiles($productId, $files);
             throw $th;
         }
-       
+
     }
 
     private static function deleteFiles(int $productId, array $files)
     {
-        
+
         foreach($files as $file){
             $path = self::photosPath($productId);
             $photoPath = "{$path}/{$file->hashName()}";
@@ -48,50 +50,43 @@ class ProductPhoto extends Model
         }
     }
 
-    public static function updatePhotoModel(int $productId, int $photoId, array $files) : ?Model
+    public function updatePhotoModel(UploadedFile $file) : ?ProductPhoto
     {
-        $productPhoto = self::find($photoId);
-
-        $veririficated = self::verificationAndDeletePhotoStorage($productPhoto->product_id, $productPhoto->file_name);
-
-        if ($veririficated) {
-            self::uploadFiles($productId, $files);
-            foreach($files as $file){
-                $productPhoto->file_name = $file->hashName();
-                $productPhoto->save();
-            }
-            
-            return $productPhoto;
+        try {
+            self::uploadFiles($this->product_id, [$file]);
+            \DB::beginTransaction();
+            $this->deletePhotoModel($this->file_name);
+            $this->file_name = $file->hashName();
+            $this->save();
+            \DB::commit();
+            return $this;
+        } catch (\Throwable $th) {
+            self::deleteFiles($this->product_id, [$file]);
+            \DB::rollBack();
+            throw $th;
         }
-
-        return null;
     }
 
-    public static function deletePhotoModel(int $photoId) : bool
+    public function deleteWithPhoto() : bool
     {
-        $productPhoto = self::find($photoId);
-
-        $veririficated = self::verificationAndDeletePhotoStorage($productPhoto->product_id, $productPhoto->file_name);
-
-        if (!$veririficated) return false;
-        
-        $productPhoto->delete();
-
-        return true;
-           
+        try {
+            \DB::beginTransaction();
+            $this->deletePhotoModel($this->file_name);
+            $resultado = $this->delete();
+            \DB::commit();
+            return $resultado;
+        } catch (\Throwable $th) {
+            \DB::rollBack();
+            throw $th;
+        }
     }
 
-    private static function verificationAndDeletePhotoStorage(int $productId, string $file) : bool
+    public function deletePhotoModel($filename)
     {
-        $path = self::photosPath($productId);
-        $photoPath = "{$path}/{$file}";
-
-        if (!file_exists($photoPath)) return false;
-        
-        \File::delete($photoPath);
-
-        return true;         
+         $dir = self::photosDir($this->product_id);
+         \Storage::disk('public')->delete("{$dir}/{$filename}");
     }
+
 
     public static function uploadFiles(int $productId, array $files)
     {
@@ -132,6 +127,6 @@ class ProductPhoto extends Model
 
     public function product()
     {
-        return $this->belongsTo(Products::class, 'product_id');
+        return $this->belongsTo(Products::class, 'product_id')->withTrashed();
     }
 }
