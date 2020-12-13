@@ -42,17 +42,8 @@ class ProductPhotoController extends Controller
      */
     public function show(Products $product, ProductPhoto $photo)
     {
-        if($photo->product_id != $product->id){
-            abort(404);
-        }
+        $this->hasProductPhoto($photo, $product);
         return new ProductPhotoResource($photo);
-    }
-
-    public function updatePhotoProduct(Request $request, Products $product, ProductPhoto $photo)
-    {
-        $productPhotoUpdated = ProductPhoto::updatePhotoModel($product->id, $photo->id, $request->photos);
-
-        return new ProductPhotoResource($productPhotoUpdated);
     }
 
     /**
@@ -62,9 +53,11 @@ class ProductPhotoController extends Controller
      * @param  \CodeShopping\ProducPhoto  $producPhoto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProductPhoto $producPhoto)
+    public function update(Request $request, Products $product, ProductPhoto $photo)
     {
-        
+        $this->hasProductPhoto($photo, $product);
+        $photo = $photo->updatePhotoModel($request->photo);
+        return new ProductPhotoResource($photo);
     }
 
     /**
@@ -75,8 +68,16 @@ class ProductPhotoController extends Controller
      */
     public function destroy(Products $product, ProductPhoto $photo)
     {
-        ProductPhoto::deletePhotoModel($photo->id);
+        $this->hasProductPhoto($photo, $product);
+        $photo->deleteWithPhoto();
 
         return response()->json([], 204);
+    }
+
+    private function hasProductPhoto(ProductPhoto $photo, Products $product)
+    {
+        if($photo->product_id != $product->id){
+            abort(404);
+        }
     }
 }

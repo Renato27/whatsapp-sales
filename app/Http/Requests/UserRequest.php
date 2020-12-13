@@ -4,7 +4,7 @@ namespace CodeShopping\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductphotoRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,21 +23,8 @@ class ProductphotoRequest extends FormRequest
      */
     public function rules()
     {
-       return !$this->route('photo') ? $this->rulesCreate() : $this->rulesUpdate();
-    }
-
-    private function rulesCreate()
-    {
         return [
-            'photos' => 'required|array',
-            'photos.*' => 'required|image|max:' . (3 * 1024)
-        ];
-    }
-
-    private function rulesUpdate()
-    {
-        return [
-            'photos' => 'required|image|max:' . (3 * 1024)
+            'email' => 'required|unique:users',
         ];
     }
 }
