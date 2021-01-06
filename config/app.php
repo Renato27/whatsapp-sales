@@ -146,6 +146,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -159,6 +160,7 @@ return [
         // CodeShopping\Providers\BroadcastServiceProvider::class,
         CodeShopping\Providers\EventServiceProvider::class,
         CodeShopping\Providers\RouteServiceProvider::class,
+
 
     ],
 

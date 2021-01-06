@@ -2,14 +2,16 @@
 
 namespace CodeShopping\Http\Controllers\Api;
 
+use CodeShopping\Common\OnlyTrashed;
 use Illuminate\Http\Request;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Resources\ProductResource;
 use CodeShopping\Products;
-use Illuminate\Database\Eloquent\Builder;
 
 class ProductsController extends Controller
 {
+    use OnlyTrashed;
+
     /**
      * Display a listing of the resource.
      *
@@ -75,12 +77,9 @@ class ProductsController extends Controller
         return response()->json([], 204);
     }
 
-    private function onlyTrashedIfRequest(Request $request, Builder $query)
+    public function restore(Products $product)
     {
-        if($request->get('trashed') == 1){
-            $query = $query->onlyTrashed();
-        }
-
-        return $query;
+        $product->restore();
+        return response()->json([], 204);
     }
 }

@@ -2,23 +2,29 @@
 
 namespace CodeShopping\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use CodeShopping\Http\Controllers\Controller;
-use CodeShopping\Http\Requests\UserRequest;
-use CodeShopping\Http\Resources\UserResource;
-use CodeShopping\User;
 use Hash;
+use CodeShopping\User;
+use CodeShopping\Common\OnlyTrashed;
+use CodeShopping\Events\UserCreatedEvent;
+use Illuminate\Http\Request;
+use CodeShopping\Http\Requests\UserRequest;
+use CodeShopping\Http\Controllers\Controller;
+use CodeShopping\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
+
+    use OnlyTrashed;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(10);
+        $query = User::query();
+        $query = $this->onlyTrashedIfRequest($request, $query);
+        $users = $query->paginate(10);
         return UserResource::collection($users);
     }
 
@@ -30,16 +36,9 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $password = \bcrypt($request->password);
-
-        $user = User::create([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'password'  => $password
-        ]);
-
+        $user = User::create($request->all());
+        event(new UserCreatedEvent($user));
         return new UserResource($user);
-
     }
 
     /**
@@ -62,30 +61,8 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-
-        $hash = Hash::check($request->password, $user->password);
-
-        if($hash){
-            $user->fill([
-                'name'      => $request->name,
-                'email'     => $request->email
-            ]);
-
-            $user->save();
-
-            return new UserResource($user);
-        }
-
-        $password = \bcrypt($request->password);
-
-        $user->fill([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'password'  => $password
-        ]);
-
+        $user->fill($request->all());
         $user->save();
-
         return new UserResource($user);
     }
 
