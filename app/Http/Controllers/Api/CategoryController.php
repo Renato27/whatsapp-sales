@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return CategoryResource::collection( Category::all());
+        return CategoryResource::collection(Category::all());
     }
 
     /**
@@ -41,7 +41,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return new CategoryResource($category); 
+        return new CategoryResource($category);
     }
 
     /**
@@ -55,7 +55,7 @@ class CategoryController extends Controller
     {
         $category->fill($request->all());
         $category->save();
-        
+
         return new CategoryResource($category);
 
         //return response([],204);
