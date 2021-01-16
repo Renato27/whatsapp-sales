@@ -1,10 +1,13 @@
+import { alert } from '@pnotify/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { HttpErrorResponse} from '@angular/common/http';
 import { CategotyNewModalComponent } from '../categoty-new-modal/categoty-new-modal.component';
 import { CategotyEditModalComponent } from '../categoty-edit-modal/categoty-edit-modal.component';
 import { CategotyDeleteModalComponent } from '../categoty-delete-modal/categoty-delete-modal.component';
 import { CategoryHttpService } from 'src/app/services/http/category-http.service';
 import { CategoryModel } from 'src/app/models/category-model';
+
+
 
 @Component({
   selector: 'app-category-list',
@@ -22,7 +25,7 @@ export class CategoryListComponent implements OnInit {
   categoryId!: number;
 
 
-  constructor(private http: HttpClient, public categoryHttp: CategoryHttpService) { }
+  constructor(public categoryHttp: CategoryHttpService) { }
 
   ngOnInit(): void {
    this.getCategories();
@@ -39,11 +42,11 @@ export class CategoryListComponent implements OnInit {
     this.categoryNewModal.showModal();
   }
 
-  showModalEdit(categoryId: number){
+  showModalEdit(categoryId: any){
     this.categoryId = categoryId;
     this.categoryEditModal.showModal();
   }
-  showModalDelete(categoryId: number){
+  showModalDelete(categoryId: any){
     this.categoryId = categoryId;
     this.categoryDeleteModal.showModal();
   }
@@ -73,5 +76,12 @@ export class CategoryListComponent implements OnInit {
 
   onDeleteError($event: HttpErrorResponse){
     console.log($event);
+  }
+
+  showNotify(){
+   alert({
+     text: 'aqui',
+     type: 'success'
+   })
   }
 }
