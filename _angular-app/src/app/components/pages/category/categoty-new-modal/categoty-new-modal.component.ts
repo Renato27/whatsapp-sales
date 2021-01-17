@@ -1,3 +1,4 @@
+import { Category } from './../../../../model';
 import { CategoryHttpService } from './../../../../services/http/category-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
@@ -11,7 +12,7 @@ import { CategoryModel } from 'src/app/models/category-model';
 })
 export class CategotyNewModalComponent implements OnInit {
 
-  category: CategoryModel = {
+  category: Category = {
     name: '',
     active: true
   };

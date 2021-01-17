@@ -13,6 +13,13 @@ import { ModalComponent } from './components/bootstrap/modal/modal.component';
 import { CategotyNewModalComponent } from './components/pages/category/categoty-new-modal/categoty-new-modal.component';
 import { CategotyEditModalComponent } from './components/pages/category/categoty-edit-modal/categoty-edit-modal.component';
 import { CategotyDeleteModalComponent } from './components/pages/category/categoty-delete-modal/categoty-delete-modal.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ProductListComponent } from './components/pages/product/product-list/product-list.component';
+import { ProductNewModalComponent } from './components/pages/product/product-new-modal/product-new-modal.component';
+import { ProductEditModalComponent } from './components/pages/product/product-edit-modal/product-edit-modal.component';
+import { ProductDeleteModalComponent } from './components/pages/product/product-delete-modal/product-delete-modal.component';
+import { NumberFormatBrPipe } from './pipes/number-format-br.pipe';
+import { ProductCategoryListComponent } from './components/pages/product-category/product-category-list/product-category-list.component';
 
 
 @NgModule({
@@ -24,13 +31,20 @@ import { CategotyDeleteModalComponent } from './components/pages/category/catego
     ModalComponent,
     CategotyNewModalComponent,
     CategotyEditModalComponent,
-    CategotyDeleteModalComponent
+    CategotyDeleteModalComponent,
+    ProductListComponent,
+    ProductNewModalComponent,
+    ProductEditModalComponent,
+    ProductDeleteModalComponent,
+    NumberFormatBrPipe,
+    ProductCategoryListComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    NgxPaginationModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

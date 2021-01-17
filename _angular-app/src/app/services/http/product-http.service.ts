@@ -1,27 +1,27 @@
 import { HttpResource } from './http-resource';
-import { Category } from './../../model';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Product } from './../../model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryHttpService implements HttpResource<Category> {
+export class ProductHttpService implements HttpResource<Product> {
 
-  private baseUrl = 'http://127.0.0.1:8000/api/categories';
+  private baseUrl = 'http://127.0.0.1:8000/api/products';
 
   constructor(private http: HttpClient) { }
 
-  list(page: number): Observable<{data: Array<Category>, meta: any}>{
+  list(page: number): Observable<{data: Array<Product>, meta: any}>{
     const token = window.localStorage.getItem('token');
     const params = new HttpParams({
       fromObject: {
         page: page + ""
       }
   })
-    return this.http.get<{data: Array<Category>, meta: any}>(`${this.baseUrl}`, {
+    return this.http.get<{data: Array<Product>, meta: any}>(`${this.baseUrl}`, {
            params,
            headers:{
              'Authorization': `Bearer ${token}`
@@ -29,9 +29,9 @@ export class CategoryHttpService implements HttpResource<Category> {
          });
   }
 
-  get(id : number): Observable<Category>{
+  get(id : number): Observable<Product>{
     const token = window.localStorage.getItem('token');
-    return this.http.get<{data: Category}>
+    return this.http.get<{data: Product}>
           (`${this.baseUrl}/ ${id}`, {
            headers:{
              'Authorization': `Bearer ${token}`
@@ -42,9 +42,9 @@ export class CategoryHttpService implements HttpResource<Category> {
          )
   }
 
-  create(data: Category): Observable<Category>{
+  create(data: Product): Observable<Product>{
     const token = window.localStorage.getItem('token');
-    return this.http.post<{data: Category}>(`${this.baseUrl}`, data, {
+    return this.http.post<{data: Product}>(`${this.baseUrl}`, data, {
            headers:{
              'Authorization': `Bearer ${token}`
            }
@@ -54,9 +54,9 @@ export class CategoryHttpService implements HttpResource<Category> {
         )
   }
 
-  update(id : number, data: Category): Observable<Category>{
+  update(id : number, data: Product): Observable<Product>{
     const token = window.localStorage.getItem('token');
-    return this.http.put<{data: Category}>(`${this.baseUrl}/ ${id}`, data, {
+    return this.http.put<{data: Product}>(`${this.baseUrl}/ ${id}`, data, {
            headers:{
              'Authorization': `Bearer ${token}`
            }
@@ -76,6 +76,4 @@ export class CategoryHttpService implements HttpResource<Category> {
     })
 
   }
-
-
 }

@@ -1,3 +1,4 @@
+import { Category } from './../../../../model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalComponent } from 'src/app/components/bootstrap/modal/modal.component';
@@ -11,7 +12,7 @@ import { CategoryHttpService } from 'src/app/services/http/category-http.service
 })
 export class CategotyDeleteModalComponent implements OnInit {
 
-  category: CategoryModel = {
+  category: Category = {
     name: '',
     active: true
   };

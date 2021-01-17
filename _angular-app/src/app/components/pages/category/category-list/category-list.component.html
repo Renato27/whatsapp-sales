@@ -1,11 +1,11 @@
 <div class="row">
-    <button type="button" (click)="showNotify()">Pnotify</button>
     <h1>Listagem de Categorias</h1>
     <table class="table table-striped">
         <thead>
             <tr>
                 <td colspan="5">
-                    <button type="button" class="btn btn-primary" (click)="showModalInsert()">Nova Categoria</button>
+                    <button type="button" class="btn btn-primary" (click)="categoryInsertService.showModalInsert()">Nova
+            Categoria</button>
                 </td>
             </tr>
             <tr>
@@ -17,25 +17,27 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let category of categories">
+            <tr *ngFor="let category of categories | paginate: {itemsPerPage: 5, currentPage: pagination.page, totalItems: pagination.totalItems}">
                 <td>{{category.id}}</td>
                 <td>{{category.name}}</td>
                 <td>
                     <i class="fas" [ngClass]="{'fa-check': category.active, 'fa-times': !category.active}"></i>
                 </td>
-                <td>{{category.created_at.date | date: 'dd/MM/yyyy'}}</td>
+                <td>{{category.created_at | date: 'dd/MM/yyyy'}}</td>
                 <td>
-                    <a href="javascript:void(0)" (click)="showModalEdit(category.id)">
+                    <a href="javascript:void(0)" (click)="categoryEditService.showModalEdit(category.id)">
                         <i class="fas fa-edit"></i>
                     </a> |
-                    <a href="javascript:void(0)" (click)="showModalDelete(category.id)">
+                    <a href="javascript:void(0)" (click)="categoryDeleteService.showModalDelete(category.id)">
                         <i class="fas fa-trash-alt"></i>
                     </a>
                 </td>
             </tr>
         </tbody>
     </table>
+    <pagination-controls (pageChange)="pageChanged($event)" previousLabel="Anterior" nextLabel="Próximo">
+    </pagination-controls>
 </div>
-<categoty-new-modal (onSuccess)="onInsertSuccess($event)" (OnError)="onInsertError($event)"></categoty-new-modal>
-<categoty-edit-modal [categoryId]="categoryId" (onSuccess)="onEditSuccess($event)" (OnError)="onEditError($event)"></categoty-edit-modal>
-<categoty-delete-modal [categoryId]="categoryId" (onSuccess)="onDeleteSuccess($event)" (OnError)="onDeleteError($event)"></categoty-delete-modal>
+<categoty-new-modal (onSuccess)="categoryInsertService.onInsertSuccess($event)" (OnError)="categoryInsertService.onInsertError($event)"></categoty-new-modal>
+<categoty-edit-modal [categoryId]="categoryId" (onSuccess)="categoryEditService.onEditSuccess($event)" (OnError)="categoryEditService.onEditError($event)"></categoty-edit-modal>
+<categoty-delete-modal [categoryId]="categoryId" (onSuccess)="categoryDeleteService.onDeleteSuccess($event)" (OnError)="categoryDeleteService.onDeleteError($event)"></categoty-delete-modal>

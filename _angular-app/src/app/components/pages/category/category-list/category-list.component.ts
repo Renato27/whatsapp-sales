@@ -1,12 +1,13 @@
-import { alert } from '@pnotify/core';
+import { Category } from './../../../../model';
+import { CategoryDeleteservice } from './category-delete.service';
+import { CategoryEditservice } from './category-edit.service';
+import { CategoryInsertservice } from './category-insert.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpErrorResponse} from '@angular/common/http';
 import { CategotyNewModalComponent } from '../categoty-new-modal/categoty-new-modal.component';
 import { CategotyEditModalComponent } from '../categoty-edit-modal/categoty-edit-modal.component';
 import { CategotyDeleteModalComponent } from '../categoty-delete-modal/categoty-delete-modal.component';
 import { CategoryHttpService } from 'src/app/services/http/category-http.service';
 import { CategoryModel } from 'src/app/models/category-model';
-
 
 
 @Component({
@@ -16,7 +17,13 @@ import { CategoryModel } from 'src/app/models/category-model';
 })
 export class CategoryListComponent implements OnInit {
 
-  categories: Array<CategoryModel> = [];
+  categories: Array<Category> = [];
+
+  pagination = {
+    page: 1,
+    totalItems: 0,
+    itemsPerPage: 15
+  };
 
   @ViewChild(CategotyNewModalComponent) categoryNewModal!: CategotyNewModalComponent;
   @ViewChild(CategotyEditModalComponent) categoryEditModal!: CategotyEditModalComponent;
@@ -25,63 +32,32 @@ export class CategoryListComponent implements OnInit {
   categoryId!: number;
 
 
-  constructor(public categoryHttp: CategoryHttpService) { }
+  constructor(private categoryHttp: CategoryHttpService,
+    public categoryInsertService: CategoryInsertservice,
+    public categoryEditService: CategoryEditservice,
+    public categoryDeleteService: CategoryDeleteservice) {
+
+    this.categoryInsertService.categoryListComponent = this;
+    this.categoryEditService.categoryListComponent = this;
+    this.categoryDeleteService.categoryListComponent = this;
+  }
 
   ngOnInit(): void {
    this.getCategories();
   }
 
   getCategories(){
-    this.categoryHttp.list()
+    this.categoryHttp.list(this.pagination.page)
     .subscribe(response => {
-      this.categories = response.data
+      this.categories = response.data;
+      this.pagination.totalItems = response.meta.total
+      this.pagination.itemsPerPage = response.meta.per_page
     });
   }
 
-  showModalInsert(){
-    this.categoryNewModal.showModal();
+  pageChanged(page: any){
+    this.pagination.page = page;
+    this.getCategories()
   }
 
-  showModalEdit(categoryId: any){
-    this.categoryId = categoryId;
-    this.categoryEditModal.showModal();
-  }
-  showModalDelete(categoryId: any){
-    this.categoryId = categoryId;
-    this.categoryDeleteModal.showModal();
-  }
-
-  onInsertSuccess($event: any){
-    console.log($event);
-    this.getCategories();
-  }
-
-  onInsertError($event: HttpErrorResponse){
-    console.log($event);
-  }
-
-  onEditSuccess($event: any){
-    console.log($event);
-    this.getCategories();
-  }
-
-  onEditError($event: HttpErrorResponse){
-    console.log($event);
-  }
-
-  onDeleteSuccess($event: any){
-    console.log($event);
-    this.getCategories();
-  }
-
-  onDeleteError($event: HttpErrorResponse){
-    console.log($event);
-  }
-
-  showNotify(){
-   alert({
-     text: 'aqui',
-     type: 'success'
-   })
-  }
 }
