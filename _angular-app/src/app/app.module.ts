@@ -20,6 +20,7 @@ import { ProductEditModalComponent } from './components/pages/product/product-ed
 import { ProductDeleteModalComponent } from './components/pages/product/product-delete-modal/product-delete-modal.component';
 import { NumberFormatBrPipe } from './pipes/number-format-br.pipe';
 import { ProductCategoryListComponent } from './components/pages/product-category/product-category-list/product-category-list.component';
+import { ProductCategoryNewComponent } from './components/pages/product-category-new/product-category-new.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { ProductCategoryListComponent } from './components/pages/product-categor
     ProductDeleteModalComponent,
     NumberFormatBrPipe,
     ProductCategoryListComponent,
+    ProductCategoryNewComponent,
   ],
   imports: [
     BrowserModule,

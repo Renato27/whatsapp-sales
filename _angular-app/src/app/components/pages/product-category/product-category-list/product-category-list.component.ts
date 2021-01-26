@@ -1,8 +1,10 @@
 import { ProductCategoryHttpService } from './../../../../services/http/product-category-http.service';
-import { Product, ProductCategory } from './../../../../model';
+import { Category, Product, ProductCategory } from './../../../../model';
 import { ProductHttpService } from './../../../../services/http/product-http.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CategoryHttpService } from 'src/app/services/http/category-http.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-product-category-list',
@@ -15,6 +17,7 @@ export class ProductCategoryListComponent implements OnInit {
   product!: Product;
   productCategory!: ProductCategory;
 
+
   constructor(private route: ActivatedRoute,
     private productHttp: ProductHttpService,
     private productCategoryHttp: ProductCategoryHttpService) { }
@@ -24,6 +27,7 @@ export class ProductCategoryListComponent implements OnInit {
       this.productId = params.product;
       this.getProduct();
       this.getProductCategory()
+
     });
   }
 
@@ -33,13 +37,22 @@ export class ProductCategoryListComponent implements OnInit {
       .subscribe(product => this.product = product)
   }
 
+
+
+  onInsertSuccess($event: ProductCategory){
+    this.getProductCategory();
+  }
+
   getProductCategory(){
     this.productCategoryHttp
     .list(this.productId)
     .subscribe(productCategory => {
       this.productCategory = productCategory;
-      console.log(this.productCategory);
     })
+  }
+
+  onInsertError($event: HttpErrorResponse){
+    console.log($event);
   }
 
 }
