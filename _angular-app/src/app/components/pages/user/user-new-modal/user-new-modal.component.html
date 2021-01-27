@@ -1,0 +1,21 @@
+<form (submit)="submit()">
+    <modal (onHide)="hideModal($event)">
+        <div modal-title>
+            <h5>Novo Usuário</h5>
+        </div>
+        <div modal-body>
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="User.name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email" [(ngModel)]="User.email" required>
+            </div>
+        </div>
+        <div modal-footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-primary">Incluir</button>
+        </div>
+    </modal>
+</form>

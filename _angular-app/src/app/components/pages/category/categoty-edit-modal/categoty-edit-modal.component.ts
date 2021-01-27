@@ -33,7 +33,11 @@ export class CategotyEditModalComponent implements OnInit {
     if(this._categoryId){
       this.categoryHttp
           .get(this._categoryId)
-          .subscribe(category => this.category = category)
+          .subscribe(category => this.category = category, error => {
+            if(error.status == 401){
+              this.modal.hide();
+            }
+          })
     }
 
   }

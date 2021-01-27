@@ -1,47 +1,47 @@
-import { HttpResource, SearchParams, SearchParamsBuilder } from './http-resource';
-import { Category } from './../../model';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { SearchParams, SearchParamsBuilder, HttpResource } from './http-resource';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
+import { User } from 'src/app/model';
 import { AuthService } from './../auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryHttpService implements HttpResource<Category> {
+export class UserHttpService implements HttpResource<User> {
 
-  private baseUrl = 'http://127.0.0.1:8000/api/categories';
+  private baseUrl = 'http://127.0.0.1:8000/api/users';
 
   constructor(private http: HttpClient) { }
 
-  list(searchParams: SearchParams): Observable<{data: Array<Category>, meta: any}>{
+  list(searchParams: SearchParams): Observable<{data: Array<User>, meta: any}>{
     const sParams = new SearchParamsBuilder(searchParams).makeObject();
     const params = new HttpParams({
       fromObject: (<any>sParams)
   })
     return this.http
-    .get<{data: Array<Category>, meta: any}>
+    .get<{data: Array<User>, meta: any}>
     (`${this.baseUrl}`, {params});
   }
 
-  get(id : number): Observable<Category>{
-    return this.http.get<{data: Category}>
+  get(id : number): Observable<User>{
+    return this.http.get<{data: User}>
           (`${this.baseUrl}/ ${id}`)
          .pipe(
            map(response => response.data)
          )
   }
 
-  create(data: Category): Observable<Category>{
-    return this.http.post<{data: Category}>(`${this.baseUrl}`, data)
+  create(data: User): Observable<User>{
+    return this.http.post<{data: User}>(`${this.baseUrl}`, data)
          .pipe(
           map(response => response.data)
         )
   }
 
-  update(id : number, data: Category): Observable<Category>{
-    return this.http.put<{data: Category}>(`${this.baseUrl}/ ${id}`, data)
+  update(id : number, data: User): Observable<User>{
+    return this.http.put<{data: User}>(`${this.baseUrl}/ ${id}`, data)
          .pipe(
           map(response => response.data)
         )
@@ -50,7 +50,6 @@ export class CategoryHttpService implements HttpResource<Category> {
   destroy(id : number): Observable<any>{
     return this.http
     .delete(`${this.baseUrl}/ ${id}`)
+
   }
-
-
 }
