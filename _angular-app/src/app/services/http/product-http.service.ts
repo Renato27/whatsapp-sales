@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AuthService } from './../auth.service';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductHttpService implements HttpResource<Product> {
 
-  private baseUrl = 'http://127.0.0.1:8000/api/products';
+  private baseUrl = `${environment.api.url}/products`;
 
   constructor(private http: HttpClient) { }
 

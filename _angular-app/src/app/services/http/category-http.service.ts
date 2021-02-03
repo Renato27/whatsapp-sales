@@ -5,13 +5,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { AuthService } from './../auth.service';
+import { environment } from './../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryHttpService implements HttpResource<Category> {
 
-  private baseUrl = 'http://127.0.0.1:8000/api/categories';
+  private baseUrl = `${environment.api.url}/categories`;
 
   constructor(private http: HttpClient) { }
 

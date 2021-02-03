@@ -46,6 +46,11 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {enableTracing: true}),
 
   ],
-exports: [RouterModule]
+exports: [
+  RouterModule
+],
+providers: [
+  AuthGuard
+]
 })
 export class AppRoutingModule { }

@@ -4,13 +4,14 @@ import { ProductCategory } from './../../model';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AuthService } from './../auth.service';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductCategoryHttpService {
 
-  private baseApi = 'http://127.0.0.1:8000/api';
+  private baseApi = `${environment.api.url}`;
 
   constructor(private http: HttpClient) { }
 

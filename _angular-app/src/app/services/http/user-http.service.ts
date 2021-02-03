@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { User } from 'src/app/model';
 import { AuthService } from './../auth.service';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserHttpService implements HttpResource<User> {
 
-  private baseUrl = 'http://127.0.0.1:8000/api/users';
+  private baseUrl = `${environment.api.url}/users`;
 
   constructor(private http: HttpClient) { }
 
