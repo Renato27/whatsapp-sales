@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { Router } from '@angular/router';
+import { AuthService } from './../../../services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,14 +13,18 @@ export class LoginComponent implements OnInit {
       password: ''
   }
 
-  constructor(private http: HttpClient) { }
+  showMessageError: boolean = false;
+
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   submit(){
-    this.http.post('http://127.0.0.1:8000/api/login', this.credentials)
-        .subscribe((data) => console.log(data));
+    this.authService.login(this.credentials)
+        .subscribe((data) => {
+          this.router.navigate(['categories/list'])
+        }, () => this.showMessageError = true);
     return false;
 
   }

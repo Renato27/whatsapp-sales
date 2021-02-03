@@ -15,9 +15,10 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return CategoryResource::collection( Category::all());
+        $categories = $request->has('all') ? Category::all() : Category::paginate(5);
+        return CategoryResource::collection($categories);
     }
 
     /**
@@ -41,7 +42,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return new CategoryResource($category); 
+        return new CategoryResource($category);
     }
 
     /**
@@ -55,7 +56,7 @@ class CategoryController extends Controller
     {
         $category->fill($request->all());
         $category->save();
-        
+
         return new CategoryResource($category);
 
         //return response([],204);

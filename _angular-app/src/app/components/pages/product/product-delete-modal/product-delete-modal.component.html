@@ -1,0 +1,12 @@
+<modal>
+    <div modal-title>
+        <h5>Exclusão de Produtos</h5>
+    </div>
+    <div modal-body>
+        Deseja excluir o produto {{product?.name}}?
+    </div>
+    <div modal-footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="submit" class="btn btn-danger" (click)="destroy()">Excluir</button>
+    </div>
+</modal>

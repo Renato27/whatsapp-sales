@@ -1,5 +1,7 @@
+<div class="col col-md-4 offset-4" *ngIf="showMessageError">
+    <alert-error [(show)]="showMessageError">Credenciais Inválidas</alert-error>
+</div>
 <form class="form-signin" (submit)="submit()">
-    <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">Code Shopping - login</h1>
     <label for="email" class="sr-only">E-mail</label>
     <input type="email" id="email" name="email" class="form-control" placeholder="Digite o e-mail" required autofocus [(ngModel)]="credentials.email">

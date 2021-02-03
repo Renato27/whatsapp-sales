@@ -1,1 +1,6 @@
-<app-login></app-login>
+<navbar *ngIf="canShowNavBar()"></navbar>
+<main>
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+</main>
