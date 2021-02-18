@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "619e8c27dbc3ecc157058712ec60b96f",
+    "content-hash": "428acf198eb532040a35352e2d0c1758",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -1004,6 +1004,55 @@
                 "storage"
             ],
             "time": "2020-05-18T15:13:39+00:00"
+        },
+        {
+            "name": "mnabialek/laravel-eloquent-filter",
+            "version": "v0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mnabialek/laravel-eloquent-filter.git",
+                "reference": "f21f0113cda63568c967400e22296dedcf10177d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mnabialek/laravel-eloquent-filter/zipball/f21f0113cda63568c967400e22296dedcf10177d",
+                "reference": "f21f0113cda63568c967400e22296dedcf10177d",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "5.*|6.*|7.*"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.5",
+                "mockery/mockery": "^1.0",
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/phpunit": "^5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mnabialek\\LaravelEloquentFilter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcin Nabiałek",
+                    "email": "dev@nabialek.org"
+                }
+            ],
+            "description": "Allows filtering Eloquent queries by input filters",
+            "keywords": [
+                "eloquent",
+                "filter",
+                "input",
+                "laravel",
+                "request"
+            ],
+            "time": "2020-06-03T19:31:08+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -4588,6 +4637,7 @@
                 "faker",
                 "fixtures"
             ],
+            "abandoned": true,
             "time": "2019-12-12T13:22:17+00:00"
         },
         {

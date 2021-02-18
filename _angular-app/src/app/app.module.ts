@@ -29,6 +29,8 @@ import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './services/auth.service';
 import { NavbarComponent } from './components/bootstrap/navbar/navbar.component';
 import { RefreshTokenInterceptorService } from './services/refresh-token-interceptor.service';
+import { SortColumnComponent } from './components/common/sort-column/sort-column.component';
+import { CategorySearchFormComponent } from './components/pages/category/category-search-form/category-search-form.component';
 
 function jwtFactory(authService: AuthService){
   return {
@@ -63,6 +65,8 @@ function jwtFactory(authService: AuthService){
     UserNewModalComponent,
     UserDeleteModalComponent,
     NavbarComponent,
+    SortColumnComponent,
+    CategorySearchFormComponent,
   ],
   imports: [
   BrowserModule,
