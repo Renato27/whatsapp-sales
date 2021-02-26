@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Category } from './../../../../model';
 import { FormGroup } from '@angular/forms';
 
@@ -12,9 +12,14 @@ export class CategoryFormComponent implements OnInit {
   @Input()
   form!: FormGroup;
 
-  constructor() { }
+  constructor(private changeRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(): void {
+      this.changeRef.detectChanges();
+
   }
 
 }
