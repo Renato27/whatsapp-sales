@@ -57,6 +57,7 @@ export class CategotyEditModalComponent implements OnInit {
   }
 
   hideModal($event: any){
+    this.category.name = '';
     console.log($event)
   }
 

@@ -43,5 +43,5 @@
     </pagination-controls>
 </div>
 <categoty-new-modal (onSuccess)="categoryInsertService.onInsertSuccess($event)" (OnError)="categoryInsertService.onInsertError($event)"></categoty-new-modal>
-<categoty-edit-modal [categoryId]="categoryId" (onSuccess)="categoryEditService.onEditSuccess($event)" (OnError)="categoryEditService.onEditError($event)"></categoty-edit-modal>
+<!-- <categoty-edit-modal [categoryId]="categoryId" (onSuccess)="categoryEditService.onEditSuccess($event)" (OnError)="categoryEditService.onEditError($event)"></categoty-edit-modal> -->
 <categoty-delete-modal [categoryId]="categoryId" (onSuccess)="categoryDeleteService.onDeleteSuccess($event)" (OnError)="categoryDeleteService.onDeleteError($event)"></categoty-delete-modal>
